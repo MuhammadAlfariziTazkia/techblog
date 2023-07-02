@@ -18,6 +18,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Builder;
@@ -27,6 +30,8 @@ import lombok.Data;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Topic {
     
     @Id
@@ -36,10 +41,11 @@ public class Topic {
     private String id;
 
     @Column
+    @NotNull
     private String name;
 
     @Column
-    private UUID superTopicId;
+    private String superTopicId;
 
     @Column
     private String description;

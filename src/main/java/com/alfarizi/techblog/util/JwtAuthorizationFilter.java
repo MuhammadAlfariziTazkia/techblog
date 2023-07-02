@@ -13,11 +13,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import com.alfarizi.techblog.service.intr.AuthenticationService;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 
-@Slf4j
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final JwtUtil jwtUtil;

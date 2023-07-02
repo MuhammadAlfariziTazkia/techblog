@@ -16,9 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.alfarizi.techblog.dto.request.AuthenticationRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     
     private final AuthenticationManager authenticationManager;
@@ -31,7 +28,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication (HttpServletRequest request, HttpServletResponse response) {
-            log.info("[attemptAuthentication] start attemptAuthentication");
         try {
             AuthenticationRequestDto authenticationRequestDto = new ObjectMapper().readValue(request.getInputStream(), AuthenticationRequestDto.class);
             return authenticationManager.authenticate(
@@ -45,7 +41,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication (HttpServletRequest request, HttpServletResponse response, FilterChain filterChain, Authentication authentication) throws IOException, ServletException {
         String token = jwtUtil.generateToken(authentication.getPrincipal().toString());
-
         response.addHeader("Authorization", "Bearer " + token);
     }
 }

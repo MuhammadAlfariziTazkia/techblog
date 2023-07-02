@@ -11,10 +11,7 @@ import com.alfarizi.techblog.constant.enumeration.CredentialTypeConstantEnum;
 import com.alfarizi.techblog.exception.custom.InvalidCredentialException;
 import com.alfarizi.techblog.service.intr.AuthenticationService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Value("${credential.username}")
@@ -31,8 +28,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public void authorize(String username, String password) throws InvalidCredentialException {
-        if (this.username.equals(username) == false) throw new InvalidCredentialException(CredentialTypeConstantEnum.USERNAME);
-        if (this.password.equals(password) == false) throw new InvalidCredentialException(CredentialTypeConstantEnum.PASSWORD);
+        if (!this.username.equals(username)) throw new InvalidCredentialException(CredentialTypeConstantEnum.USERNAME);
+        if (!this.password.equals(password)) throw new InvalidCredentialException(CredentialTypeConstantEnum.PASSWORD);
     }
 
     

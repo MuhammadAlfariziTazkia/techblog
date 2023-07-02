@@ -25,7 +25,7 @@ public class ContentController {
 
     @PostMapping
     public ResponseEntity<BasicResponseDto> createContent(@RequestBody ContentDto contentDto,
-            UriComponentsBuilder uriComponentsBuilder) {
+                                                          UriComponentsBuilder uriComponentsBuilder) {
         Content content = contentService.create(contentDto);
         return ResponseEntity.created(
                 CommonHelper.getCreatedUri(
