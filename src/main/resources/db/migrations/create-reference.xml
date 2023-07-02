@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="create-reference" author="alfarizi">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="reference"/>
+            </not>
+        </preConditions>
+        <createTable tableName="reference">
+            <column name="id" type="varchar(32)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="topic_id" type="varchar(32)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="link_id" type="varchar(32)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="reference"
+                                 baseColumnNames="topic_id"
+                                 referencedTableName="topic"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_reference_topic"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="reference"
+                                 baseColumnNames="link_id"
+                                 referencedTableName="link"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_reference_link"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>                      
+    </changeSet>
+
+</databaseChangeLog>
