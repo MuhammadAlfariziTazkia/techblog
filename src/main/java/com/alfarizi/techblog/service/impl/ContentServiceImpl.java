@@ -33,10 +33,6 @@ public class ContentServiceImpl implements ContentService {
     private ContentRepository contentRepository;
 
     @Autowired
-    @Qualifier("topicServiceImpl")
-    private CoreService<Topic, TopicDto> topicService;
-
-    @Autowired
     @Qualifier("translationServiceImpl")
     private CoreService<Translation, TranslationDto> translationService;
 
@@ -46,13 +42,12 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public Content create (ContentDto contentDto) {
         try {
-            Topic topic = topicService.getById(contentDto.getTopicId());
             TranslationDto translationDto = TranslationDto.builder()
                     .english(contentDto.getEnglish())
                     .indonesian(contentDto.getIndonesian())
                     .build();
             Content content = Content.builder()
-                    .topic(topic)
+                    .topicId(contentDto.getTopicId())
                     .translation(translationService.create(translationDto))
                     .createdAt(commonHelper.getCurrentTimestamp())
                     .build();
@@ -85,11 +80,7 @@ public class ContentServiceImpl implements ContentService {
         );
         content.setTranslation(translation);
 
-        if (contentDto.getTopicId() != null) {
-            Topic topic = topicService.getById(contentDto.getTopicId());
-            topic.setId(contentDto.getTopicId());
-            content.setTopic(topic);
-        }
+        if (contentDto.getTopicId() != null) content.setTopicId(contentDto.getTopicId());
 
         return contentRepository.save(content);
     }

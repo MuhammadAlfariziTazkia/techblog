@@ -8,6 +8,7 @@ import com.alfarizi.techblog.exception.custom.EntityFailedPersistException;
 import com.alfarizi.techblog.exception.custom.EntityNotFoundException;
 import com.alfarizi.techblog.helper.CommonHelper;
 import com.alfarizi.techblog.repository.TopicRepository;
+import com.alfarizi.techblog.service.intr.ContentService;
 import com.alfarizi.techblog.service.intr.CoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class TopicServiceImpl implements CoreService<Topic, TopicDto> {
 
     @Autowired
     private TopicRepository topicRepository;
+
+    @Autowired
+    private ContentService contentService;
 
     @Autowired
     private CommonHelper commonHelper;
@@ -46,7 +50,10 @@ public class TopicServiceImpl implements CoreService<Topic, TopicDto> {
 
     @Override
     public Topic getById(String id) {
-        return topicRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(EntityTypeEnum.TOPIC));
+        Topic topic = topicRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(EntityTypeEnum.TOPIC));
+        topic.setSubTopics(topicRepository.findBySuperTopicId(id));
+        topic.setContent(contentService.getByTopicId(id));
+        return topic;
     }
 
     @Override

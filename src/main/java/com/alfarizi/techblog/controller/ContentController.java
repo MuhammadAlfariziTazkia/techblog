@@ -40,12 +40,12 @@ public class ContentController {
     }
 
     @GetMapping
-    public ResponseEntity<BasicResponseDto> getAllContent(@RequestParam(required = false) String topicId) {
+    public ResponseEntity<BasicResponseDto> getAllContent() {
         return ResponseEntity.ok(
                 BasicResponseDto.builder()
                         .status(HttpStatus.OK)
-                        .message("Success generate content")
-                        .data(topicId == null ? contentService.getAll() : contentService.getByTopicId(topicId))
+                        .message("Success generate all content")
+                        .data(contentService.getAll())
                         .build()
         );
     }

@@ -7,12 +7,14 @@ import com.alfarizi.techblog.exception.custom.EntityNotFoundException;
 import com.alfarizi.techblog.helper.CommonHelper;
 import com.alfarizi.techblog.repository.TopicRepository;
 import com.alfarizi.techblog.service.impl.TopicServiceImpl;
+import com.alfarizi.techblog.service.intr.ContentService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,6 +30,9 @@ public class TopicServiceImplTest {
 
     @Mock
     private CommonHelper commonHelper;
+
+    @Mock
+    private ContentService contentService;
 
     @InjectMocks
     private TopicServiceImpl topicService;
@@ -63,12 +68,16 @@ public class TopicServiceImplTest {
     @Test
     public void getByIdSuccessTest () {
         when(topicRepository.findById(TOPIC_ID)).thenReturn(Optional.of(TOPIC_WITH_ID));
+        when(topicRepository.findBySuperTopicId(TOPIC_ID)).thenReturn(Collections.emptyList());
+        when(contentService.getByTopicId(TOPIC_ID)).thenReturn(null);
 
         Topic actualTopic = topicService.getById(TOPIC_ID);
 
         assertEquals(TOPIC_WITH_ID, actualTopic);
 
         verify(topicRepository).findById(TOPIC_ID);
+        verify(topicRepository).findBySuperTopicId(TOPIC_ID);
+        verify(contentService).getByTopicId(TOPIC_ID);
     }
 
     @Test
@@ -88,6 +97,8 @@ public class TopicServiceImplTest {
     @Test
     public void updateSuccessTest () {
         when(topicRepository.findById(TOPIC_ID)).thenReturn(Optional.of(TOPIC_WITH_ID));
+        when(topicRepository.findBySuperTopicId(TOPIC_ID)).thenReturn(Collections.emptyList());
+        when(contentService.getByTopicId(TOPIC_ID)).thenReturn(null);
         when(topicRepository.save(TOPIC_WITH_ID)).thenReturn(TOPIC_WITH_ID);
 
         Topic actual = topicService.update(TOPIC_DTO, TOPIC_ID);
@@ -95,6 +106,8 @@ public class TopicServiceImplTest {
         assertEquals(TOPIC_WITH_ID, actual);
 
         verify(topicRepository).findById(TOPIC_ID);
+        verify(topicRepository).findBySuperTopicId(TOPIC_ID);
+        verify(contentService).getByTopicId(TOPIC_ID);
         verify(topicRepository).save(TOPIC_WITH_ID);
     }
 
@@ -115,6 +128,8 @@ public class TopicServiceImplTest {
     @Test
     public void updateTopicFailedTest () {
         when(topicRepository.findById(TOPIC_ID)).thenReturn(Optional.of(TOPIC_WITH_ID));
+        when(topicRepository.findBySuperTopicId(TOPIC_ID)).thenReturn(Collections.emptyList());
+        when(contentService.getByTopicId(TOPIC_ID)).thenReturn(null);
         when(topicRepository.save(TOPIC_WITH_ID)).thenThrow(EntityFailedPersistException.class);
 
         EntityFailedPersistException exception = assertThrows(
@@ -125,6 +140,8 @@ public class TopicServiceImplTest {
         assertEquals(EntityTypeEnum.TOPIC, exception.getEntityType());
 
         verify(topicRepository).findById(TOPIC_ID);
+        verify(topicRepository).findBySuperTopicId(TOPIC_ID);
+        verify(contentService).getByTopicId(TOPIC_ID);
         verify(topicRepository).save(TOPIC_WITH_ID);
     }
 

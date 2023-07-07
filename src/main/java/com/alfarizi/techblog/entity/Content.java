@@ -32,9 +32,8 @@ public class Content {
     @Column
     private Timestamp createdAt;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "topic_id")
-    private Topic topic;
+    @Column
+    private String topicId;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "translation_id")
