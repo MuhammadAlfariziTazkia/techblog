@@ -20,12 +20,15 @@ public class TopicController {
     @Autowired
     private TopicService topicService;
 
+    @Autowired
+    private CommonHelper commonHelper;
+
     @PostMapping
     public ResponseEntity<BasicResponseDto> create (@RequestBody TopicDto topicDto,
             UriComponentsBuilder uriComponentsBuilder) {
         Topic topic = topicService.create(topicDto);
         return ResponseEntity.created(
-                CommonHelper.getCreatedUri(PathConstantVariable.BASE_PRIVATE_TOPIC_PATH, topic.getId(),
+                commonHelper.getCreatedUri(PathConstantVariable.BASE_PRIVATE_TOPIC_PATH, topic.getId(),
                         uriComponentsBuilder))
                 .body(
                         BasicResponseDto.builder()

@@ -26,14 +26,18 @@ public class ContentServiceImpl implements ContentService {
     @Autowired
     private TopicService topicService;
 
+    @Autowired
+    private CommonHelper commonHelper;
+
     @Override
-    public Content getContentByTopicId(String topicId) {
-        return contentRepository.findById(topicId).orElseThrow(() -> new EntityNotFoundException(EntityTypeEnum.TOPIC));
+    public Content getById(String id) {
+        return contentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(EntityTypeEnum.CONTENT));
     }
+
 
     @Override
     public Content create (ContentDto contentDto) {
-        Topic topic = topicService.getById(contentDto.getTopicId()).orElseThrow(() -> new EntityNotFoundException(EntityTypeEnum.TOPIC));
+        Topic topic = topicService.getById(contentDto.getTopicId());
         Translation translation = Translation.builder()
                 .english(contentDto.getEnglish())
                 .indonesian(contentDto.getIndonesian())
@@ -41,7 +45,7 @@ public class ContentServiceImpl implements ContentService {
         Content content = Content.builder()
                 .topic(topic)
                 .translation(translation)
-                .createdAt(CommonHelper.getCurrentTimestamp())
+                .createdAt(commonHelper.getCurrentTimestamp())
                 .build();
         return contentRepository.save(content);
     }

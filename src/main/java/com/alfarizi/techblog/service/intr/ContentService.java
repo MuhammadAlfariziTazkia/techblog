@@ -5,7 +5,7 @@ import com.alfarizi.techblog.entity.Content;
 
 public interface ContentService {
 
-    Content getContentByTopicId (String topicId);
+    Content getById (String id);
 
     Content create (ContentDto contentDto);
 

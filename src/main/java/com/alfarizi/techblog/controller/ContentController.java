@@ -23,12 +23,15 @@ public class ContentController {
     @Autowired
     private ContentService contentService;
 
+    @Autowired
+    private CommonHelper commonHelper;
+
     @PostMapping
     public ResponseEntity<BasicResponseDto> createContent(@RequestBody ContentDto contentDto,
                                                           UriComponentsBuilder uriComponentsBuilder) {
         Content content = contentService.create(contentDto);
         return ResponseEntity.created(
-                CommonHelper.getCreatedUri(
+                commonHelper.getCreatedUri(
                         PathConstantVariable.BASE_PRIVATE_CONTENT_PATH,
                         content.getId(),
                         uriComponentsBuilder))
