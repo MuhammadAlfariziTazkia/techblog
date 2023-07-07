@@ -22,8 +22,17 @@ public class TranslationServiceImpl implements CoreService<Translation, Translat
     private TranslationRepository translationRepository;
 
     @Override
-    public Translation create(TranslationDto dto) {
-        return null;
+    public Translation create(TranslationDto translationDto) {
+        try {
+            Translation translation = Translation.builder()
+                    .indonesian(translationDto.getIndonesian())
+                    .english(translationDto.getEnglish())
+                    .build();
+            return translationRepository.save(translation);
+        } catch (Exception e) {
+            log.error("[create]-failed create translation", e);
+            throw new EntityFailedPersistException(PersistTypeEnum.CREATE, EntityTypeEnum.TRANSLATION);
+        }
     }
 
     @Override

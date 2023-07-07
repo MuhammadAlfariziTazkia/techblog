@@ -19,6 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Content {
     
