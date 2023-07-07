@@ -9,12 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Builder;
 
 @Table
 @Entity
+@Data
 @Builder
 public class Translation {
     

@@ -1,6 +1,8 @@
 package com.alfarizi.techblog.controller;
 
+import com.alfarizi.techblog.service.intr.CoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +13,14 @@ import com.alfarizi.techblog.dto.request.TopicDto;
 import com.alfarizi.techblog.dto.response.BasicResponseDto;
 import com.alfarizi.techblog.entity.Topic;
 import com.alfarizi.techblog.helper.CommonHelper;
-import com.alfarizi.techblog.service.intr.TopicService;
 
 @RestController
 @RequestMapping(PathConstantVariable.BASE_PRIVATE_TOPIC_PATH)
 public class TopicController {
 
     @Autowired
-    private TopicService topicService;
+    @Qualifier("topicServiceImpl")
+    private CoreService<Topic, TopicDto> topicService;
 
     @Autowired
     private CommonHelper commonHelper;

@@ -7,6 +7,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class CommonHelper {
@@ -20,5 +21,20 @@ public class CommonHelper {
     public URI getCreatedUri (String basePath, String id, UriComponentsBuilder uriComponentsBuilder) {
         UriComponents uriComponents = uriComponentsBuilder.path(basePath + "/{id}").buildAndExpand(id);
         return uriComponents.toUri();
+    }
+
+    // return true if there is null value in a list
+    public boolean isValuesContainNull (List<Object> values) {
+        for (Object value : values) {
+            if (value == null) return true;
+        }
+        return false;
+    }
+
+    public boolean isValuesContainsNonNull (List<Object> values) {
+        for (Object value: values) {
+            if (value != null) return true;
+        }
+        return false;
     }
 }

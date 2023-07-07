@@ -1,16 +1,20 @@
 package com.alfarizi.techblog.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode(callSuper = true)
+@Builder
 @Data
-public class ContentDto extends TranslationDto{
+@AllArgsConstructor
+@NoArgsConstructor
+public class TranslationDto {
 
     @JsonProperty
-    private String topicId;
+    private String english;
+
+    @JsonProperty
+    private String indonesian;
 }

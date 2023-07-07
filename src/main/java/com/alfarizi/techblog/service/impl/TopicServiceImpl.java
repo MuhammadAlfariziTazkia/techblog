@@ -8,7 +8,7 @@ import com.alfarizi.techblog.exception.custom.EntityFailedPersistException;
 import com.alfarizi.techblog.exception.custom.EntityNotFoundException;
 import com.alfarizi.techblog.helper.CommonHelper;
 import com.alfarizi.techblog.repository.TopicRepository;
-import com.alfarizi.techblog.service.intr.TopicService;
+import com.alfarizi.techblog.service.intr.CoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @Service
 @Transactional
-public class TopicServiceImpl implements TopicService {
+public class TopicServiceImpl implements CoreService<Topic, TopicDto> {
 
     @Autowired
     private TopicRepository topicRepository;
