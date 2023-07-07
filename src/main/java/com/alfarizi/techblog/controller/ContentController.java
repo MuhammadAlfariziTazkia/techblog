@@ -1,29 +1,23 @@
 package com.alfarizi.techblog.controller;
 
-import com.alfarizi.techblog.service.intr.CoreService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import com.alfarizi.techblog.constant.variable.PathConstantVariable;
 import com.alfarizi.techblog.dto.request.ContentDto;
 import com.alfarizi.techblog.dto.response.BasicResponseDto;
 import com.alfarizi.techblog.entity.Content;
 import com.alfarizi.techblog.helper.CommonHelper;
+import com.alfarizi.techblog.service.intr.ContentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping(PathConstantVariable.BASE_PRIVATE_CONTENT_PATH)
 public class ContentController {
 
     @Autowired
-    @Qualifier("contentServiceImpl")
-    private CoreService<Content, ContentDto> contentService;
+    private ContentService contentService;
 
     @Autowired
     private CommonHelper commonHelper;
@@ -43,5 +37,50 @@ public class ContentController {
                                 .message("Success create content")
                                 .data(content)
                                 .build());
+    }
+
+    @GetMapping
+    public ResponseEntity<BasicResponseDto> getAllContent(@RequestParam(required = false) String topicId) {
+        return ResponseEntity.ok(
+                BasicResponseDto.builder()
+                        .status(HttpStatus.OK)
+                        .message("Success generate content")
+                        .data(topicId == null ? contentService.getAll() : contentService.getByTopicId(topicId))
+                        .build()
+        );
+    }
+
+    @GetMapping(PathConstantVariable.APPEND_ID)
+    public ResponseEntity<BasicResponseDto> getContentById(@PathVariable String id) {
+        return ResponseEntity.ok(
+                BasicResponseDto.builder()
+                        .data(contentService.getById(id))
+                        .message("Success generate content")
+                        .status(HttpStatus.OK)
+                        .build()
+        );
+    }
+
+    @PutMapping(PathConstantVariable.APPEND_ID)
+    public ResponseEntity<BasicResponseDto> updateContentById (@RequestBody ContentDto contentDto, @PathVariable String id) {
+        return ResponseEntity.ok(
+                BasicResponseDto.builder()
+                        .data(contentService.update(contentDto, id))
+                        .status(HttpStatus.OK)
+                        .message("Success update content")
+                        .build()
+        );
+    }
+
+    @DeleteMapping(PathConstantVariable.APPEND_ID)
+    public ResponseEntity<BasicResponseDto> deleteContentById (@PathVariable String id) {
+        contentService.delete(id);
+        return ResponseEntity.ok(
+                BasicResponseDto.builder()
+                        .data(null)
+                        .message("Success delete content")
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 }

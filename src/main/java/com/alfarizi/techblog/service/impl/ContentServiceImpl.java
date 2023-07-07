@@ -8,6 +8,7 @@ import com.alfarizi.techblog.dto.request.TopicDto;
 import com.alfarizi.techblog.dto.request.TranslationDto;
 import com.alfarizi.techblog.exception.custom.EntityFailedPersistException;
 import com.alfarizi.techblog.exception.custom.EntityNotFoundException;
+import com.alfarizi.techblog.service.intr.ContentService;
 import com.alfarizi.techblog.service.intr.CoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import java.util.List;
 @Slf4j
 @Service
 @Transactional
-public class ContentServiceImpl implements CoreService<Content, ContentDto> {
+public class ContentServiceImpl implements ContentService {
 
     @Autowired
     private ContentRepository contentRepository;
@@ -95,6 +96,15 @@ public class ContentServiceImpl implements CoreService<Content, ContentDto> {
 
     @Override
     public void delete(String id) {
-        throw new UnsupportedOperationException();
+        try {
+            contentRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new EntityFailedPersistException(PersistTypeEnum.DELETE, EntityTypeEnum.CONTENT);
+        }
+    }
+
+    @Override
+    public Content getByTopicId(String topicId) {
+        return contentRepository.findByTopicId(topicId);
     }
 }
