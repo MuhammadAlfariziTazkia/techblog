@@ -31,6 +31,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(
                         BasicResponseDto.builder()
+                                .status(HttpStatus.UNAUTHORIZED)
                                 .message(exception.getMessage())
                                 .data(null)
                                 .build());
@@ -42,6 +43,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(
                         BasicResponseDto.builder()
+                                .status(HttpStatus.NOT_FOUND)
                                 .message(ex.getMessage())
                                 .data(null)
                                 .build());
@@ -53,6 +55,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(
                         BasicResponseDto.builder()
+                                .status(HttpStatus.INTERNAL_SERVER_ERROR)
                                 .message(ex.getMessage())
                                 .data(null)
                                 .build());
