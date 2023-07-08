@@ -1,20 +1,21 @@
 package com.alfarizi.techblog.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Builder
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class TranslationDto {
 
     @JsonProperty
-    private String english;
+    private String indonesian;
 
     @JsonProperty
-    private String indonesian;
+    private String english;
+
+    @Builder(builderMethodName = "translationDtoBuilder")
+    public TranslationDto (String indonesian, String english) {
+        this.indonesian = indonesian;
+        this.english = english;
+    }
 }
