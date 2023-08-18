@@ -5,8 +5,9 @@ import com.alfarizi.techblog.dto.request.ContentDto;
 import com.alfarizi.techblog.dto.response.BasicResponseDto;
 import com.alfarizi.techblog.entity.Content;
 import com.alfarizi.techblog.helper.CommonHelper;
-import com.alfarizi.techblog.service.intr.ContentService;
+import com.alfarizi.techblog.service.intr.CoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class ContentController {
 
     @Autowired
-    private ContentService contentService;
+    @Qualifier("contentServiceImpl")
+    private CoreService<Content, ContentDto> contentService;
 
     @Autowired
     private CommonHelper commonHelper;

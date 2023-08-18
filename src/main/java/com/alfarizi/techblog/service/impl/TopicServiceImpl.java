@@ -10,6 +10,7 @@ import com.alfarizi.techblog.helper.CommonHelper;
 import com.alfarizi.techblog.repository.TopicRepository;
 import com.alfarizi.techblog.service.intr.ContentService;
 import com.alfarizi.techblog.service.intr.CoreService;
+import com.alfarizi.techblog.service.intr.ReferenceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class TopicServiceImpl implements CoreService<Topic, TopicDto> {
 
     @Autowired
     private ContentService contentService;
+
+    @Autowired
+    private ReferenceService referenceService;
 
     @Autowired
     private CommonHelper commonHelper;
@@ -53,6 +57,7 @@ public class TopicServiceImpl implements CoreService<Topic, TopicDto> {
         Topic topic = topicRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(EntityTypeEnum.TOPIC));
         topic.setSubTopics(topicRepository.findBySuperTopicId(id));
         topic.setContent(contentService.getByTopicId(id));
+        topic.setReferences(referenceService.getByTopicId(id));
         return topic;
     }
 

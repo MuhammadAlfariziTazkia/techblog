@@ -1,20 +1,20 @@
 package com.alfarizi.techblog.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
+import com.alfarizi.techblog.constant.enumeration.LinkTypeEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import com.alfarizi.techblog.constant.enumeration.LinkTypeEnum;
+import javax.persistence.*;
 
 @Entity
 @Table
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Link {
     
     @Id
@@ -29,7 +29,4 @@ public class Link {
     @Column
     @Enumerated(EnumType.STRING)
     private LinkTypeEnum type;
-
-    @OneToOne(mappedBy = "link")
-    private Reference reference;
 }

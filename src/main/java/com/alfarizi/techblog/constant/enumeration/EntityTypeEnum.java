@@ -1,5 +1,5 @@
 package com.alfarizi.techblog.constant.enumeration;
 
 public enum EntityTypeEnum {
-    TOPIC, CONTENT, TRANSLATION
+    TOPIC, CONTENT, TRANSLATION, LINK, REFERENCE
 }

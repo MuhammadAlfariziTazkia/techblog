@@ -77,8 +77,7 @@ public class ContentServiceImpl implements ContentService {
             );
             content.setTranslation(translation);
 
-        if (contentDto.getTopicId() != null) content.setTopicId(contentDto.getTopicId());
-
+            if (contentDto.getTopicId() != null) content.setTopicId(contentDto.getTopicId());
             return contentRepository.save(content);
         } catch (EntityNotFoundException e) {
             log.error("[update]-failed update topic: {}", e.getMessage());
